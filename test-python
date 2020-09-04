@@ -1,8 +1,3 @@
-from sys import exit
-from random import randint
-
-
-
 class scene(object):
     def enter(self):
         print("This scene is not yet configured. Subclass it and implement enter()")
@@ -68,7 +63,7 @@ dead. Then he eats you."""))
 
         else:
             print("Doesn't compute")
-            return 'Central_corridor'
+            'Central_corridor'
 
 class LaserWeaponArmy(scene):
     def enter(self):
