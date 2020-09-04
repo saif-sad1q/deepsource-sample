@@ -12,7 +12,7 @@ class Engine(object):
         current_scene=self.scene_map.opening_scene()
         last_scene=self.scene_map.next_scene('finished')
 
-        while current_scene!= last_scene:
+        while current_scene!= :
             next_scene_name= current_scene.enter()
             current_scene=self.scene_map.next_scene(next_scene_name)
 
@@ -90,7 +90,7 @@ class TheBridge(scene):
     def enter(self):
         print(dedent("U find 5 gothams on the bridge and you have the bomb. What'll you do?"))
         action=input()
-        if action=="throw the bomb":
+        if action="throw the bomb":
             print(dedent("in the front gothams are killed from your bomb but some other shot you in the back"))
             return 'death'
         elif action=="slowly place the bomb":
