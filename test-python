@@ -74,9 +74,7 @@ class LaserWeaponArmy(scene):
         guesses=0
 
         while guess!=code and guesses<10:
-            print("Buzzed")
-            guesses +=1
-            guess= input()
+            print("Buzzed
 
         if guess=code:
             print(dedent("You get it, now run to the bridge"))
