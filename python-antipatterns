@@ -1,7 +1,7 @@
 """
 Using an unpythonic loop:
 Instead of counting over an index and retrieving the corresponding index element within the for
-loop, you should use enumerate to retrieve the index and list element simultaneously.
+loop, you should use enumerate to retrieve the index and list element si.
 """
 l = [1,2,3]
 
