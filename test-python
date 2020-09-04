@@ -53,7 +53,7 @@ dead. Then he eats you."""))
 
             return 'death'
 
-        elif action== "dodge":
+        elif action== "":
             print(dedent('You dodge, you fell and you aere dead'))
             return 'death'
 
