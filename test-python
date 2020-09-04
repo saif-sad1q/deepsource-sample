@@ -1,0 +1,146 @@
+from sys import exit
+from random import randint
+
+
+
+class scene(object):
+    def enter(self):
+        print("This scene is not yet configured. Subclass it and implement enter()")
+        exit (1)
+
+class Engine(object):
+
+    def __init__ (self, scene_map):
+        self.scene_map=scene_map
+
+    def play(self):
+        current_scene=self.scene_map.opening_scene()
+        last_scene=self.scene_map.next_scene('finished')
+
+        while current_scene!= last_scene:
+            next_scene_name= current_scene.enter()
+            current_scene=self.scene_map.next_scene(next_scene_name)
+
+        current_scene.enter()
+
+class Death(scene):
+    quips= ["You Died"]
+
+     enter(self):
+        print(Death.quips[randint(0, len(self.quips)-1)])
+        exit(1)
+
+class Central_corridor(scene):
+    def enter(self):
+        print(dedent("""
+        The Gothons of Planet Percal #25 have invaded your ship and
+ destroyed your entire crew. You are the last surviving
+ member and your last mission is to get the neutron destruct
+ bomb from the Weapons Armory, put it in the bridge, and
+ blow the ship up after getting into an escape pod.
+
+You're running down the central corridor to the Weapons
+Armory when a Gothon jumps out, red scaly skin, dark grimy
+teeth, and evil clown costume flowing around his hate
+filled body. He's blocking the door to the Armory and
+about to pull a weapon to blast you.
+        """))
+
+        action=input(">")
+
+        if action=="shoot":
+            print(dedent("""Quick on the draw you yank out your blaster and fire it at the Gothon. His clown costume is flowing and moving around his body, which throws off your aim.
+ Your laser hits his costume but misses him entirely.
+This completely ruins his brand new costume his mother
+bought him, which makes him fly into an insane rage
+and blast you repeatedly in the face until you are
+dead. Then he eats you."""))
+
+            return 'death'
+
+        elif action== "dodge":
+            print(dedent('You dodge, you fell and you aere dead'))
+            return 'death'
+
+        elif action=="tell a joke":
+            print(dedent("When gotham is laughing you kill him and get through weapon army door"))
+            return 'laser_weapon_army'
+
+        else:
+            print("Doesn't compute")
+            return 'Central_corridor'
+
+class LaserWeaponArmy(scene):
+    def enter(self):
+        print(dedent('Enter the code of 3 digiit to opent the box. If you enter wrong code more than 10 timees, it will explode'))
+        #code= f"{randint(1,9)}{randint(1,9)}{randint(1,9)}"
+        code= 333
+        guess=input()
+        guesses=0
+
+        while guess!=code and guesses<10:
+            print("Buzzed")
+            guesses +=1
+            guess= input()
+
+        if guess=code:
+            print(dedent("You get it, now run to the bridge"))
+            return 'bridge'
+
+        else:
+            print(dedent("You were unable to get the code!YOU ARE DEAD"))
+            return 'death'
+
+class TheBridge(scene):
+    def enter(self):
+        print(dedent("U find 5 gothams on the bridge and you have the bomb. What'll you do?"))
+        action=input()
+        if action=="throw the bomb":
+            print(dedent("in the front gothams are killed from your bomb but some other shot you in the back"))
+            return 'death'
+        elif action=="slowly place the bomb":
+            print(dedent("You killed all of them chance to escape now"))
+            return 'escape_pod'
+        else:
+            print("Does not compute")
+            return 'the_bridge'
+
+class Escape_pod(scene):
+    def enter(self):
+        print(dedent("There are 5 pods which one will you take?"))
+        good_pod= randint(1,5)
+        guess= input("> ")
+
+        if int(guess)!= good_pod:
+            print(dedent("Not the right pod, it is crashing now...... CRASHED"))
+            return 'death'
+
+        else:
+            print(dedent("You made it"))
+            return 'finished'
+
+class finished(scene):
+    def enter(self):
+        print("YOU WON, GOOD JOB")
+
+class Map(object):
+    scenes= {
+    'central_corridor': Central_corridor(),
+    'laser_weapon_army': LaserWeaponArmy(),
+    'bridge': TheBridge(),
+    'escape_pod': Escape_pod(),
+    'death': Death(),
+    'finished': finished()
+    }
+
+    def __init__(self, start_scene):
+        self.start_scene=start_scene
+    def next_scene(self, scene_name):
+        val=Map.scenes.get(scene_name)
+        return val
+    def opening_scene(self):
+        return self.next_scene(self.start_scene)
+
+a_map=Map('central_corridor')
+a_game= Engine(a_map)
+a_game.play()
